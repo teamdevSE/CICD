@@ -10,11 +10,11 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@v2    
-        
-      - name: Install expect
-        run: sudo apt-get install -y expect
-        
+        uses: actions/checkout@v2
+
+      - name: Install rsync
+        run: sudo apt-get install -y rsync
+
       - name: SSH into the server
         uses: appleboy/ssh-action@master
         with:
@@ -23,8 +23,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /usr/share/nginx/html/
-            rm -r test
+            rm -rf test
             mkdir test
             cd test
-            git pull origin main
+            git init
+            git remote add origin https://github.com/teamdevSE/CICD.git
+            git fetch origin main
+            git reset --hard origin/main
             echo 'Deployment successful to Digital Ocean'
