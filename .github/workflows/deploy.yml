@@ -9,9 +9,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Git checkout
+        uses: actions/checkout@v2    
+        
       - name: Install expect
         run: sudo apt-get install -y expect
-
+        
       - name: SSH into the server
         uses: appleboy/ssh-action@master
         with:
@@ -24,4 +27,4 @@ jobs:
             mkdir test
             cd test
             git pull origin main
-            echo 'Deployment successful to DigitalOcean'
+            echo 'Deployment successful to Digital Ocean'
