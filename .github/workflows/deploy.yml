@@ -21,5 +21,7 @@ jobs:
           script: |
             cd /usr/share/nginx/html/
             rm -r test
-            git clone https://github.com/teamdevSE/CICD.git test
+            mkdir test
+            cd test
+            git clone https://github.com/teamdevSE/CICD.git
             echo 'Deployment successful to DigitalOcean'
