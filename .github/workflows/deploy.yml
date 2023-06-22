@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.0
         with:
@@ -23,13 +27,4 @@ jobs:
           port: 22
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /usr/share/nginx/html/
-            rm -rf test
-            mkdir test
-            cd test
-
-            # Perform a git pull
-            git pull
-
-            # Or, perform a git checkout
-            # git checkout <commit_or_branch_name>
+            cd /usr/share/nginx/html/test
