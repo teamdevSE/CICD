@@ -21,15 +21,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: .
           target: /usr/share/nginx/html/testsite
-          
-      - name: Install pm2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST_IP }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            sudo npm install -g pm2
             
       - name: Run Node.js with pm2
         uses: appleboy/ssh-action@master
@@ -39,4 +30,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}      
           script: |
             cd /usr/share/nginx/html/testsite
+            pm2 stop app.js
             pm2 start app.js
