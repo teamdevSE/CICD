@@ -40,5 +40,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}      
           script: |
-            cd /root/html
+            cd /root/
+            chmod -R 775 html
             docker-compose up -d
