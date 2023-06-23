@@ -10,25 +10,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: 1. checkout code
         uses: actions/checkout@v2
 
-      - name: Copy code to SSH machine
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST_IP }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: .
-          target: /usr/share/nginx/html/testsite
-            
-      - name: Run Node.js with pm2
+      - name: 2. create folder and permission
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST_IP }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}      
           script: |
-            cd /usr/share/nginx/html/testsite
-            pm2 stop app.js
-            pm2 start app.js
+            cd /root
+            mkdir html
+            chmod -R 775 html
+
+      - name: 3. copy file to SSH machine
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: .
+          target: /root/html
+            
+      - name: 4. run docker-compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}      
+          script: |
+            cd /root/html
+            docker-compose up -d
