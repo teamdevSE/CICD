@@ -43,5 +43,6 @@ jobs:
           script: |
             cd /root/
             chmod -R 775 html
+            cd html
             docker-compose down
             docker-compose up -d
