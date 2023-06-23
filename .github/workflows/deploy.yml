@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: .
-          target: /git
+          target: /home/teamdev/git
             
       - name: 4. run docker-compose
         uses: appleboy/ssh-action@master
@@ -41,7 +41,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}      
           script: |
+            cd /home/teamdev
             chmod -R 775 git
-            cd git
+            cd html
             docker-compose down
             docker-compose up -d
