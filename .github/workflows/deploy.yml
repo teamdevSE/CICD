@@ -34,17 +34,7 @@ jobs:
           source: .
           target: /home/teamdev/git
             
-      - name: 4. Update docker-compose.yml
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST_IP }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
-            cd /home/teamdev/git
-            sed -i 's#<PATH_TO_HTML>#/home/teamdev/git/html#g' docker-compose.yml
-
-      - name: 5. Run docker-compose
+      - name: 4. Run docker-compose
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST_IP }}
