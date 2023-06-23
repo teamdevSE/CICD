@@ -21,3 +21,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: .
           target: /usr/share/nginx/html/testsite
+          script: |
+            cd /usr/share/nginx/html/testsite
+            kill $(lsof -t -i :3000)
+            node app.js
