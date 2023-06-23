@@ -21,9 +21,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}      
           script: |
             cd /home/teamdev
-            rm -r html
-            mkdir html
-            chmod -R 775 html
+            rm -r git
+            mkdir git
+            chmod -R 775 git
 
       - name: 3. copy file to SSH machine
         uses: appleboy/scp-action@master
@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: .
-          target: /home/teamdev/html
+          target: /home/teamdev/git
             
       - name: 4. run docker-compose
         uses: appleboy/ssh-action@master
@@ -42,7 +42,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}      
           script: |
             cd /home/teamdev
-            chmod -R 775 html
-            cd html
+            chmod -R 775 git
+            cd git
             docker-compose down
             docker-compose up -d
