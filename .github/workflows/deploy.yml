@@ -20,4 +20,4 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: .
-          target: /usr/share/nginx/html
+          target: /usr/share/nginx/html/testsite
