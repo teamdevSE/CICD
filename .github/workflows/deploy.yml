@@ -21,6 +21,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}      
           script: |
             cd /root
+            rm -r html
             mkdir html
             chmod -R 775 html
 
@@ -42,4 +43,5 @@ jobs:
           script: |
             cd /root/
             chmod -R 775 html
+            docker-compose down
             docker-compose up -d
