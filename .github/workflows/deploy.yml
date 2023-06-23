@@ -22,7 +22,16 @@ jobs:
           source: .
           target: /usr/share/nginx/html/testsite
           
-      - name: Run Node.js
+      - name: Install pm2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo npm install -g pm2
+            
+      - name: Run Node.js with pm2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST_IP }}
@@ -30,5 +39,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}      
           script: |
             cd /usr/share/nginx/html/testsite
-            kill $(lsof -t -i :3000)
-            node app.js &
+            pm2 start app.js
