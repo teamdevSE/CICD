@@ -31,4 +31,4 @@ jobs:
           script: |
             cd /usr/share/nginx/html/testsite
             kill $(lsof -t -i :3000)
-            node app.js
+            node app.js &
