@@ -10,39 +10,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 1. checkout code
+      - name: 1. Checkout code
         uses: actions/checkout@v2
 
-      - name: 2. create folder and permission
+      - name: 2. Create folder and set permissions
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST_IP }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}      
+          password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /home/teamdev
             rm -r git
             mkdir git
             chmod -R 775 git
 
-      - name: 3. copy file to SSH machine
+      - name: 3. Copy files to SSH machine
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST_IP }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }}
           source: .
           target: /home/teamdev/git
             
-      - name: 4. run docker-compose
+      - name: 4. Run docker-compose
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST_IP }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}      
+          password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /home/teamdev
             chmod -R 775 git
-            cd html
+            cd git/html
             docker-compose down
             docker-compose up -d
