@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}      
           script: |
-            cd /root
+            cd /home/teamdev
             rm -r html
             mkdir html
             chmod -R 775 html
@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: .
-          target: /root/html
+          target: /home/teamdev/html
             
       - name: 4. run docker-compose
         uses: appleboy/ssh-action@master
@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}      
           script: |
-            cd /root/
+            cd /home/teamdev
             chmod -R 775 html
             cd html
             docker-compose down
