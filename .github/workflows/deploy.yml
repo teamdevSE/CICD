@@ -12,8 +12,22 @@ jobs:
     steps:
       - name: 1. Checkout code
         uses: actions/checkout@v2
+      
+      - name: 2. Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '20.x'
 
-      - name: 2. Create folder and set permissions
+      - name: 3. Install Project Dependencies
+        run: npm install
+
+      - name: 4. Build Project
+        run: npm run build
+      
+      - name: 5. Verify the Build
+        run: ls -la out
+
+      - name: 6. Create folder and set permissions
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST_IP }}
@@ -25,16 +39,16 @@ jobs:
             mkdir git
             chmod -R 775 git
 
-      - name: 3. Copy files to SSH machine
+      - name: 7. Copy files to SSH machine
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST_IP }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: .
+          source: ./.next
           target: /home/teamdev/git
-            
-      - name: 4. Run docker-compose
+
+      - name: 8. Run docker-compose
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST_IP }}
@@ -43,4 +57,4 @@ jobs:
           script: |
             cd /home/teamdev/git
             docker-compose down
-            docker-compose up -d
+            docker-compose up -d          
